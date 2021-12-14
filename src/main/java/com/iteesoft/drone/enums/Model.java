@@ -1,8 +1,14 @@
 package com.iteesoft.drone.enums;
 
 public enum Model {
-    LIGHTWEIGHT,
-    MIDDLEWEIGHT,
-    CRUISERWEIGHT,
-    HEAVYWEIGHT
+    LIGHT_WEIGHT("LIGHTWEIGHT"),
+    MIDDLE_WEIGHT("MIDDLEWEIGHT"),
+    CRUISER_WEIGHT("CRUISERWEIGHT"),
+    HEAVY_WEIGHT("HEAVYWEIGHT");
+
+    public final String label;
+
+    Model(String label){
+        this.label = label;
+    }
 }
