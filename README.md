@@ -1,65 +1,43 @@
-Drones Management API
-[[TOC]]
+### Drones Management API
 
-:scroll: START
+### Introduction
+This is a REST API that help monitors and manages drone activities.
+It allows clients to communicate with their registered drones. 
+Each drone is capable of carrying devices and delivering small loads, in this case the load is medications.
 
-Introduction
-This is an API that help monitors and manages drone activities.
-
-Technologies
-
+### Technologies Used
 H2 Database
 Spring JPA
+OpenAPI
+Lombok
 
 
+A Drone can be registered with the properties below:
+- serial number;
+- model (Lightweight, Middleweight, Cruiserweight, Heavyweight);
+- weight limit (500gr max);
+- battery capacity (%);
+- state (IDLE, LOADING, LOADED, DELIVERING, DELIVERED, RETURNING).
+
+A Medication can be registered with the properties below:
+- name;
+- weight;
+- code;
+- image (picture of the medication case).
+
+### Functionalities
+Users can:
+- register a drone;
+- loading a drone with medication items;
+- check loaded medication items for a given drone;
+- check available drones for loading;
+- check drone battery level for a given drone;
 
 
-Task description
-We have a fleet of 10 drones. A drone is capable of carrying devices, other than cameras, and capable of delivering small loads. For our use case the load is medications.
+### Build/Run Instructions
 
-A Drone has:
-
-serial number (100 characters max);
-model (Lightweight, Middleweight, Cruiserweight, Heavyweight);
-weight limit (500gr max);
-battery capacity (percentage);
-state (IDLE, LOADING, LOADED, DELIVERING, DELIVERED, RETURNING).
-
-Each Medication has:
-
-name (allowed only letters, numbers, ‘-‘, ‘_’);
-weight;
-code (allowed only upper case letters, underscore and numbers);
-image (picture of the medication case).
-Develop a service via REST API that allows clients to communicate with the drones (i.e. dispatch controller). The specific communicaiton with the drone is outside the scope of this task.
-
-The service endpoints allows:
-
-registering a drone;
-loading a drone with medication items;
-checking loaded medication items for a given drone;
-checking available drones for loading;
-check drone battery level for a given drone;
-
-Requirements
-While implementing your solution please take care of the following requirements:
-
-Functional requirements
-There is no need for UI;
-Prevent the drone from being loaded with more weight that it can carry;
-Prevent the drone from being in LOADING state if the battery level is below 25%;
-Introduce a periodic task to check drones battery levels and create history/audit event log for this.
-
-Build/run/test instructions
-
-This project is build with MAVEN
-
-Non-functional requirements
-Input/output data must be in JSON format;
-Your project must be buildable and runnable;
-Your project must have a README file with build/run/test instructions (use DB that can be run locally, e.g. in-memory, via container);
-Required data must be preloaded in the database.
-JUnit tests are optional but advisable (if you have time);
-Advice: Show us how you work through your commit history.
+This project was built with MAVEN.
+Once cloned, run on your IDE and access the endpoints via postman or open-api
+http://localhost:8080/api-docs
 
 :scroll: END
