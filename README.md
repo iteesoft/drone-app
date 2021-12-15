@@ -6,9 +6,9 @@ It allows clients to communicate with their registered drones.
 Each drone is capable of carrying devices and delivering small loads, in this case the load is medications.
 
 ### Technologies Used
-H2 Database
-Spring JPA
-OpenAPI
+H2 Database,
+Spring JPA,
+OpenAPI,
 Lombok
 
 
