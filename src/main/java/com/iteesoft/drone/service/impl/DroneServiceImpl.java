@@ -94,34 +94,27 @@ public class DroneServiceImpl implements DroneService {
 
     @Override
     public List<Drone> viewAvailableDrone() {
-        List<Drone> drones = droneRepository.findAll();
-        List<Drone> availableDrones = new ArrayList<>();
-
-        for(Drone d : drones) {
-            if (d.getState() == State.IDLE) {
-                availableDrones.add(d);
-            }
-        }
-        return availableDrones;
+        log.info("Fetching all drones in idle state... ");
+        return droneRepository.findAvailableDrones();
     }
 
     @Override
-    public int viewDroneBattery(int droneId) {
+    public String viewDroneBattery(int droneId) {
         Drone drone = droneRepository.findById(droneId).orElseThrow(()-> new ResourceNotFoundException("Drone not found"));
         var batteryCapacity = drone.getBatteryCapacity();
         log.info("Drone s/n: {}, Battery level: {}%", drone.getSerialNumber(), batteryCapacity);
-        return batteryCapacity;
+        return batteryCapacity+"%";
     }
 
     @Override
     public List<Medication> viewAllMedications() {
-        log.info("Fetching all Medications ");
+        log.info("Fetching all registered Medications... ");
         return medicationRepository.findAll();
     }
 
     @Override
     public List<Drone> viewAllDrones() {
-        log.info("Fetching all Drones ");
+        log.info("Fetching all registered Drones... ");
         return droneRepository.findAll();
     }
 

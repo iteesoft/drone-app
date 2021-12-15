@@ -16,7 +16,7 @@ public interface DroneService {
     Drone loadWithMedication(int droneId, int medicationId);
     List<Medication> viewDroneItems(int droneId);
     List<Drone> viewAvailableDrone();
-    int viewDroneBattery(int droneId);
+    String viewDroneBattery(int droneId);
     List<Medication> viewAllMedications();
     List<Drone> viewAllDrones();
 }
