@@ -39,9 +39,9 @@ public class DroneApplication {
 	public OpenAPI customOpenAPI(@Value("${application-description}") String appDescription, @Value("${application-version}") String appVersion) {
 		return new OpenAPI().info(new Info().title("drone management app API")
 				.version(appVersion).description(appDescription)
-				.termsOfService("https://iteesoft.io")
+				.termsOfService("https://iteesoft.io/terms")
 				.license(new License()
-				.name("Ifeoluwa Adebayo 'iTeesoft'")
+				.name("Ifeoluwa Stephen Adebayo 'iTeesoft'")
 				.url("https://iteesoft.io")));
 	}
 }

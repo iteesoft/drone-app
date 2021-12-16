@@ -122,11 +122,9 @@ public class DroneServiceImpl implements DroneService {
     @Scheduled(initialDelay = 40000, fixedRate = 500000) // cron = "0 1 1 * * ?"
     public void viewAllDroneBattery() {
         log.info("Checking drones Battery level...");
-        Logger logger = LoggerFactory.getLogger(DroneServiceImpl.class);
-        var time = LocalDateTime.now().toString();
         List<Drone> drones = droneRepository.findAll();
         for (Drone d: drones) {
-            logger.info("Drone s/n: "+d.getSerialNumber()+", Battery level: "+d.getBatteryCapacity()+"%, Status: "+ d.getState());
+            log.info("Drone s/n: "+d.getSerialNumber()+", Battery level: "+d.getBatteryCapacity()+"%, Status: "+ d.getState());
         }
     }
 
