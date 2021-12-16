@@ -10,10 +10,10 @@ import com.iteesoft.drone.repository.MedicationRepository;
 import com.iteesoft.drone.service.DroneService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,13 +73,14 @@ public class DroneServiceImpl implements DroneService {
         var medication = getMedication(medicationId);
         var totalWeight = medication.getWeight() + totalLoadWeight(droneId);
         drone.setState(State.LOADING);
+        log.info("Medication with code: {} is been loaded on Drone s/n: {}", medication.getCode(), drone.getSerialNumber());
 
         if (totalWeight <= drone.getWeightLimit() && drone.getBatteryCapacity() > 25) {
-            log.info("Medication with code: {} is been loaded on Drone s/n: {}", medication.getCode(), drone.getSerialNumber());
             drone.getItems().add(medication);
             drone.setState(State.LOADED);
             decreaseBatteryLevel(droneId);
             droneRepository.save(drone);
+            log.info("Total load on Drone s/n: {}, {}Kg", drone.getSerialNumber(), totalWeight);
         } else {
             throw new ResourceNotFoundException("Error loading drone, weight limit exceeded");
         }
@@ -120,10 +121,12 @@ public class DroneServiceImpl implements DroneService {
 
     @Scheduled(initialDelay = 40000, fixedRate = 500000) // cron = "0 1 1 * * ?"
     public void viewAllDroneBattery() {
+        log.info("Checking drones Battery level...");
+        Logger logger = LoggerFactory.getLogger(DroneServiceImpl.class);
         var time = LocalDateTime.now().toString();
         List<Drone> drones = droneRepository.findAll();
         for (Drone d: drones) {
-            log.info("Current Time: {}, Drone s/n: {}, Battery level: {}%, Status: {}", time, d.getSerialNumber(), d.getBatteryCapacity(), d.getState());
+            logger.info("Drone s/n: "+d.getSerialNumber()+", Battery level: "+d.getBatteryCapacity()+"%, Status: "+ d.getState());
         }
     }
 

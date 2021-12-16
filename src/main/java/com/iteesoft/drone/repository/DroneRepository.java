@@ -13,6 +13,4 @@ public interface DroneRepository extends JpaRepository<Drone, Integer> {
 //    @Query(value = "select * from drone where state = 'IDLE'", nativeQuery = true)
     @Query("from Drone d where d.state='IDLE'")
     List<Drone> findAvailableDrones();
-
-
 }
