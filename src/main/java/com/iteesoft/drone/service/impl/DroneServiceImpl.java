@@ -10,11 +10,8 @@ import com.iteesoft.drone.repository.MedicationRepository;
 import com.iteesoft.drone.service.DroneService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +25,7 @@ public class DroneServiceImpl implements DroneService {
 
     @Override
     public Drone register(DroneDto droneInfo) {
+        log.info("Registering Drone with s/n: {}", droneInfo.getSerialNumber());
         Drone drone = Drone.builder()
                 .serialNumber(droneInfo.getSerialNumber())
                 .model(droneInfo.getModel())
@@ -35,7 +33,6 @@ public class DroneServiceImpl implements DroneService {
                 .weightLimit(droneInfo.getWeightLimit())
                 .state(State.IDLE).items(new ArrayList<>())
                 .build();
-        log.info("Drone with s/n -> {} registered", drone.getSerialNumber());
         return droneRepository.save(drone);
     }
 
@@ -54,11 +51,12 @@ public class DroneServiceImpl implements DroneService {
     }
 
     public void decreaseBatteryLevel(int droneId) {
+        final int DECREMENT_VALUE = 5;
         var drone = getDroneById(droneId);
-        int i = drone.getBatteryCapacity() - 5;
-        drone.setBatteryCapacity(i);
+        final int newBatteryLevel = drone.getBatteryCapacity() - DECREMENT_VALUE;
+        drone.setBatteryCapacity(newBatteryLevel);
         droneRepository.save(drone);
-        log.info("Drone s/n: {} new battery level, {}%", drone.getSerialNumber(), i);
+        log.info("Drone s/n: {} new battery level, {}%", drone.getSerialNumber(), newBatteryLevel);
     }
 
     public Medication getMedication(int medicId) {
@@ -71,7 +69,7 @@ public class DroneServiceImpl implements DroneService {
     public Drone loadWithMedication(int droneId, int medicationId) {
         var drone = getDroneById(droneId);
         var medication = getMedication(medicationId);
-        var totalWeight = medication.getWeight() + totalLoadWeight(droneId);
+        final int totalWeight = medication.getWeight() + totalLoadWeight(droneId);
         drone.setState(State.LOADING);
         log.info("Medication with code: {} is been loaded on Drone s/n: {}", medication.getCode(), drone.getSerialNumber());
 
