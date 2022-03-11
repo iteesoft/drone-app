@@ -19,4 +19,6 @@ public interface DroneService {
     String viewDroneBattery(int droneId);
     List<Medication> viewAllMedications();
     List<Drone> viewAllDrones();
+
+    int totalLoadWeight(int droneId);
 }
